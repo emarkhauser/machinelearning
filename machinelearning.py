@@ -54,8 +54,8 @@ class MachineLearning:
 		# Set up kfold
 		kfold = model_selection.KFold(n_splits=self.k_fold_splits, random_state=7)
 		# Run Algorithm
-		cv_results = model_selection.cross_val_score(algorithm, X_train, Y_train, cv=kfold, scoring='accuracy')
-		print("%s: %f (%f)" % (algorithmName, cv_results.mean(), cv_results.std()))
+		scores = model_selection.cross_val_score(algorithm, X_train, Y_train, cv=kfold, scoring='accuracy')
+		print("%s: %f (%f)" % (algorithmName, scores.mean(), scores.std()))
 
 	def runAlgorithms(self, xVars, yVar):
 		self.Y = self.data[yVar]
