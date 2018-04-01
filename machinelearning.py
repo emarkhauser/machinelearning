@@ -53,7 +53,7 @@ class MachineLearning:
 		# Make category variables binary
 		self.X = pandas.get_dummies(self.data[xVars])
 
-	def runAlgorithm(self, algorithmName, algorithm):
+	def runAlgorithm(self, algorithm):
 		# Remove features with low variance
 		transformers = make_union(
 			#VarianceThreshold(threshold=(.8 * (1 - .8))),
@@ -69,18 +69,18 @@ class MachineLearning:
 		kfold = model_selection.KFold(n_splits=self.k_fold_splits, random_state=7)
 		# Run Algorithm
 		scores = model_selection.cross_val_score(pipe, X_train, Y_train, cv=kfold, scoring='accuracy')
-		print("%s: %f (%f)" % (algorithmName, scores.mean(), scores.std()))
+		print("%s: %f (%f)" % (pipe.steps[1][0], scores.mean(), scores.std()))
 		# Clear Cache
 		rmtree(cachedir)
 
 	def runAlgorithms(self):
-		self.runAlgorithm("Linear SVC", LinearSVC())
-		self.runAlgorithm("Logistic Regression SVC", LogisticRegressionCV())
-		self.runAlgorithm("K Neighbors Classifier", KNeighborsClassifier())
-		self.runAlgorithm("SVC", SVC())
-		self.runAlgorithm("Bernoulli Naive Bayes", BernoulliNB())
+		self.runAlgorithm(LinearSVC())
+		self.runAlgorithm(LogisticRegressionCV())
+		self.runAlgorithm(KNeighborsClassifier())
+		self.runAlgorithm(SVC())
+		self.runAlgorithm(BernoulliNB())
 		if len(self.X) > 100000:
-			self.runAlgorithm("SGD Classifier", SGDClassifier())
+			self.runAlgorithm(SGDClassifier())
 
 
 		
