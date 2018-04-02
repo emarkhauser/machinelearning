@@ -31,13 +31,6 @@ class MachineLearning:
 		)
 		self.data[vars] = transformers.fit_transform(self.data[[vars]])
 
-	def cleanCategoricalData(self, vars):
-		transformers = make_union(
-			#LabelEncoder(),
-			#OneHotEncoder()
-		)
-		self.data[vars] = transformers.fit_transform(self.data[[vars]])
-
 	def crosstabsY(self, Y, X):
 		for x in range(0, len(X)):
 			ct = pandas.crosstab(self.data[Y], self.data[X[x]], normalize='columns')
