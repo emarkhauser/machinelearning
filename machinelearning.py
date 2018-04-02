@@ -1,8 +1,7 @@
 import pandas
 import numpy
-from sklearn import preprocessing, model_selection
-from sklearn.preprocessing import Imputer, OneHotEncoder, LabelEncoder
-from sklearn.feature_selection import VarianceThreshold, SelectKBest, chi2
+from sklearn import model_selection
+from sklearn.preprocessing import Imputer
 from sklearn.pipeline import make_union, make_pipeline
 from tempfile import mkdtemp
 from shutil import rmtree
@@ -49,7 +48,6 @@ class MachineLearning:
 	def runAlgorithm(self, algorithm):
 		# Remove features with low variance
 		transformers = make_union(
-			#VarianceThreshold(threshold=(.8 * (1 - .8))),
 			PCA(),
 		)
 		# Make directory to store cache for transformers
