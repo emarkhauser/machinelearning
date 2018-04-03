@@ -20,8 +20,11 @@ class MachineLearning:
 	test_set_size = 0.2
 	k_fold_splits = 10
 
-	def __init__(self, dataFile):
-		self.data = pandas.read_csv(dataFile)
+	def __init__(self, data):
+		self.data = data
+		self.replaceInfinityData()
+
+	def replaceInfinityData(self):
 		self.data.replace([numpy.inf, -numpy.inf], numpy.nan)
 
 	def cleanIntervalData(self, vars):
@@ -45,7 +48,7 @@ class MachineLearning:
 		# Make category variables binary
 		self.X = pandas.get_dummies(self.data[xVars])
 
-	def runAlgorithm(self, algorithm):
+	def runEstimator(self, algorithm):
 		# Remove features with low variance
 		transformers = make_union(
 			PCA(),
@@ -64,14 +67,14 @@ class MachineLearning:
 		# Clear Cache
 		rmtree(cachedir)
 
-	def runAlgorithms(self):
-		self.runAlgorithm(LinearSVC())
-		self.runAlgorithm(LogisticRegressionCV())
-		self.runAlgorithm(KNeighborsClassifier())
-		self.runAlgorithm(SVC())
-		self.runAlgorithm(BernoulliNB())
+	def runClassifiers(self):
+		self.runEstimator(LinearSVC())
+		self.runEstimator(LogisticRegressionCV())
+		self.runEstimator(KNeighborsClassifier())
+		self.runEstimator(SVC())
+		self.runEstimator(BernoulliNB())
 		if len(self.X) > 100000:
-			self.runAlgorithm(SGDClassifier())
+			self.runEstimator(SGDClassifier())
 
 
 		
